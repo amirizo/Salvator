@@ -1,0 +1,38 @@
+{% extends "salvatore/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<section>
+    <div class="container mt-5">
+        <h2 class="my-4">Results</h2>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#/</th>
+                    <th>Questions</th>
+                    <th>Right Answer</th>
+                    <th>Submitted Answer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in result%}
+                <tr>
+                    <td>{{row.id}}</td>
+                    <td>{{row.question}}</td>
+                    <td>{{row.question.right_opt}}</td>
+                    {% if row.question.right_opt == row.right_answer%}
+                        <td class="bg-success text-white">{{row.right_answer}}</td>
+                    {% else %}
+                        <td class="bg-danger text-white">{{row.right_answer}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+        
+    </div>
+</section>
+
+{% endblock %}

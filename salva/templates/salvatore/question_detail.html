@@ -1,0 +1,90 @@
+{% extends "salvatore/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .question-container {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+    }
+    .form-heading {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+</style>
+<section>
+    <div class="container mt-5">
+        <div class="question-container mx-auto">
+            <h2 class="form-heading">Exercise C</h2>
+            <p class="text-center">Choose the correct answer.</p>
+        </div>
+        <form method="post" action="{% url 'submit_answers' category.pk questions.0.pk %}">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="question-container mx-auto">
+                    <label class="form-label">{{ forloop.counter }}. {{ question.question }}</label>
+                    {% if question.question_type == 'MC' %}
+                        <div class="form-check">
+                            <input id="option_1" class="form-check-input" type="radio" name="question" value="{{ question.opt_1 }}">
+                            <label class="form-check-label" for="option_1">{{ question.opt_1 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_2" class="form-check-input" type="radio" name="question" value="{{ question.opt_2 }}">
+                            <label class="form-check-label" for="option_2">{{ question.opt_2 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_3" class="form-check-input" type="radio" name="question" value="{{ question.opt_3 }}">
+                            <label class="form-check-label" for="option_3">{{ question.opt_3 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_4" class="form-check-input" type="radio" name="question" value="{{ question.opt_4 }}">
+                            <label class="form-check-label" for="option_4">{{ question.opt_4 }}</label>
+                        </div>
+                    {% elif question.question_type == 'FB' %}
+                        <div class="form-check">
+                            <input id="option_1" class="form-check-input" type="radio" name="question" value="{{ question.opt_1 }}">
+                            <label class="form-check-label" for="option_1">{{ question.opt_1 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_2" class="form-check-input" type="radio" name="question" value="{{ question.opt_2 }}">
+                            <label class="form-check-label" for="option_2">{{ question.opt_2 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_3" class="form-check-input" type="radio" name="question" value="{{ question.opt_3 }}">
+                            <label class="form-check-label" for="option_3">{{ question.opt_3 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="option_4" class="form-check-input" type="radio" name="question" value="{{ question.opt_4 }}">
+                            <label class="form-check-label" for="option_4">{{ question.opt_4 }}</label>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" name="next" value="next" class="btn btn-secondary nextBTn">Next</button>
+                <button type="submit" name="submit" value="submit" class="btn btn-secondary submitBtn">Submit Answer</button>
+            </div>
+        </form>
+    </div>
+    <br>
+</section>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".submitBtn").on('click', function(){
+            var _checkedAns=$("input[name='question']:checked").val();
+            if(_checkedAns==undefined){
+                alert('please select option')
+                return false;
+            }
+            
+        });
+    });
+</script>
+
+{% endblock %}
